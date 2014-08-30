@@ -42,6 +42,15 @@
 				paintNetwork();
 			});
 
+            //Function to handel the node delete event
+    		$("#updateForm").on("click", "#node-delete", function(event){
+				console.log('node delete clicked');
+				id = $('#node-update-id').val();
+				deleteNode(id);
+				setTimeout(1);
+				paintNetwork();
+			});
+
 			//need to find a better way to store unique id's.
 			function storeNode(label) {
 				$.get("store_node.php",{label: label});
@@ -57,6 +66,11 @@
 				$.get("update_node.php",{id: id, label: label});
 			}
 
+			//Function to update a node in the network
+			function deleteNode(id){
+				$.get("delete_node.php",{id: id});
+			}
+
 			function createEdgeSelectionForm(){
 				$.getJSON('get_all_nodes.php', function(data) {
 					$.each( data , function(index, value){
@@ -70,7 +84,7 @@
 				$('#updateForm form').remove();
 				$.each( nodes , function(index, value){
 					if(value['id'] == nodeId){
-						$('#updateForm').append('<form><input type="hidden" id="node-update-id" value="'+value['id']+'"><label>label</label><input type="text" name="label" id="node-update-label" value="'+value['label']+'" />	<a href="#" id="node-update">update</a></form>');
+						$('#updateForm').append('<form><input type="hidden" id="node-update-id" value="'+value['id']+'"><label>label</label><input type="text" name="label" id="node-update-label" value="'+value['label']+'" /><a href="#" id="node-update">update</a> | <a href="#" id="node-delete">Delete</a></form>');
 					}
 				});
 
